@@ -15,11 +15,8 @@ async def cmd_start(message: Message):
         if not await db.select_user(message.from_user.id):
             await db.add_user({
                 'user_id': message.from_user.id,
-                'name': message.from_user.first_name,
-                'lastname': message.from_user.last_name,
                 'username': message.from_user.username,
-                'status': user.STATUS_REGISTER,
-                'user_language': 'en'
+                'status': user.STATUS_UNREGISTER,
             })
         else:
             print(2)

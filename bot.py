@@ -14,15 +14,7 @@ from app.http.client.commands import \
 
 from database.migrations import \
     user, \
-    wallets, \
-    achievements, \
-    bonuses, \
-    lottery, \
-    payments, \
-    promo_codes, \
-    promo_code_users, \
-    say_hi, \
-    statistic
+    stats
 
 
 TOKEN = config.TOKEN
