@@ -3,7 +3,9 @@ from aiogram import Router
 from aiogram.types import Message
 
 from database.commands import db
-from database.migrations import user
+from database.migrations import user as User
+
+from keyboartds.default import auth
 
 router = Router()
 
@@ -12,16 +14,22 @@ router = Router()
 async def cmd_start(message: Message):
     if message.chat.type == 'private':
         # try:
-        if not await db.select_user(message.from_user.id):
-            await db.add_user({
-                'user_id': message.from_user.id,
-                'username': message.from_user.username,
-                'status': user.STATUS_UNREGISTER,
-            })
+        user = await db.select_user(message.from_user.id)
+        if not user or user.status != User.STATUS_ACTIVE:
+            # await db.add_user({
+            #     'telegram_id': message.from_user.id,
+            #     'username': message.from_user.username,
+            #     'status': user.STATUS_UNREGISTER,
+            # })
+            #
+            await message.answer(('👇'), reply_markup=auth())
         else:
-            print(2)
-    # except:
-    #     await message.answer(('❗ Бот розроблений для кожного особисто, не можна його добавляти в групи. Поспілкуйтесь з ним самі: @trx_games_bot\nЯкщо у вас виникли інші проблеми, звертайтесь до нашого менеджера: @Christooo1'))
+            await message.answer(('ти зареган'))
+    # except: await message.answer(('❗ Бот розроблений для кожного особисто, не можна його добавляти в групи.
+    # Поспілкуйтесь з ним самі: @trx_games_bot\nЯкщо у вас виникли інші проблеми, звертайтесь до нашого менеджера:
+    # @Christooo1'))
     else:
         await message.answer((
-                                 '❗ Бот розроблений для кожного особисто, не можна його добавляти в групи. Поспілкуйтесь з ним самі: @trx_games_bot\nЯкщо у вас виникли інші проблеми, звертайтесь до нашого менеджера: @Christooo1'))
+                                 '❗ Бот розроблений для кожного особисто, не можна його добавляти в групи. '
+                                 'Поспілкуйтесь з ним самі: @trx_games_bot\nЯкщо у вас виникли інші проблеми, '
+                                 'звертайтесь до нашого менеджера: @Christooo1'))

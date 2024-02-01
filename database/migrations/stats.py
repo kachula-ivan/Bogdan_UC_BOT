@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer
 from database.app import db
 
 
-class Wallet(db.Model):
+class Stats(db.Model):
     __tablename__ = 'stats'
 
     id = Column(Integer, primary_key=True)

@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from database.app import db
 
 STATUS_UNREGISTER = 'unregister'
+STATUS_LOGOUT = 'logout'
 STATUS_ACTIVE = 'active'
 STATUS_BANNED = 'banned'
 
@@ -21,5 +22,5 @@ class User(db.Model):
     password = Column(String)
     created_at = Column(DateTime)
 
-    achievements = relationship('UserStats', back_populates='user', uselist=False)
-    payments = relationship('Orders', back_populates='user')
+    # userStats = relationship('UserStats', back_populates='user', uselist=False)
+    orders = relationship('Orders', back_populates='user')

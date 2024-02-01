@@ -14,6 +14,9 @@ from app.http.client.commands import \
 
 from database.migrations import \
     user, \
+    orders, \
+    price, \
+    variables, \
     stats
 
 
