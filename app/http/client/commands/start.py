@@ -8,9 +8,10 @@ from database.migrations import user as User
 from keyboartds.default import auth
 
 router = Router()
+flags = {"throttling_key": "default"}
 
 
-@router.message(Command('start'))
+@router.message(Command('start'), flags=flags)
 async def cmd_start(message: Message):
     if message.chat.type == 'private':
         # try:

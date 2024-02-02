@@ -5,9 +5,10 @@ from aiogram import types
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 router = Router()
+flags = {"throttling_key": "default"}
 
 
-@router.message(Command("help"))
+@router.message(Command("help"), flags=flags)
 async def cmd_help(message: Message):
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(

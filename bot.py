@@ -12,6 +12,8 @@ from app.http.client.commands import \
     start, \
     help
 
+from app.middleware.throttling import ThrottlingMiddleware
+
 from database.migrations import \
     user, \
     orders, \
@@ -48,6 +50,8 @@ async def main() -> None:
             start.router,
             help.router
         )
+
+        dp.message.middleware(ThrottlingMiddleware(1, config.THROTTLE_TIME))
 
         dp.startup.register(on_startup)
 
