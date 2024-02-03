@@ -29,3 +29,22 @@ def main():
         ],
         resize_keyboard=True,
     )
+
+
+def main_admin():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text="📬 Рассылка"),
+            ],
+            [
+                KeyboardButton(text="📜 Прайс лист"),
+                KeyboardButton(text="📊 Статистика бота"),
+            ],
+            [
+                KeyboardButton(text="💰 Добавить прайс"),
+                KeyboardButton(text="📊 Статистика пользователя"),
+            ],
+        ],
+        resize_keyboard=True,
+    )

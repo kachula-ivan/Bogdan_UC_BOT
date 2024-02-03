@@ -6,3 +6,7 @@ class Auth(StatesGroup):
     password = State()
     check = State()
 
+
+class SetPubgId(StatesGroup):
+    enter = State()
+    validate = State()

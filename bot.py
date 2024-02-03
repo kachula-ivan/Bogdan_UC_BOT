@@ -8,11 +8,13 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 
 from app.http.admin.callback import register
+from app.http.admin.commands import admin, mailing
+from app.http.client.callback import setPubgId as callbackSimple
 from database.app import db
 
 from app.http.client.commands import \
     start, \
-    help, simple, auth
+    help, simple, auth, profile
 
 from app.middleware.throttling import ThrottlingMiddleware
 
@@ -53,7 +55,11 @@ async def main() -> None:
             start.router,
             help.router,
             simple.router,
+            callbackSimple.router,
+            profile.router,
             auth.router,
+            admin.router,
+            mailing.router,
             register.router,
         )
 

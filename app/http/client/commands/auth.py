@@ -39,6 +39,8 @@ async def password(message: Message, state: FSMContext):
     else:
         await message.answer('Неверный логин или пароль!', reply_markup=auth())
 
+    await state.clear()
+
 
 @router.message(Command('logout'), flags=flags)
 async def logout(message: Message):
