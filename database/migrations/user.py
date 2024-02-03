@@ -1,39 +1,32 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, BigInteger
 from sqlalchemy.orm import relationship
 
 from database.app import db
-from database.migrations import promo_code_users
 
+STATUS_UNREGISTER = 'unregister'
 STATUS_REGISTER = 'register'
+STATUS_DECLINED = 'declined'
+STATUS_LOGOUT = 'logout'
 STATUS_ACTIVE = 'active'
 STATUS_BANNED = 'banned'
+
+ROLE_USER = 'user'
+ROLE_ADMIN = 'admin'
 
 class User(db.Model):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer)
-    name = Column(String)
-    lastname = Column(String)
+    telegram_id = Column(BigInteger)
+    first_name = Column(String)
+    last_name = Column(String)
     username = Column(String)
-    email = Column(String)
-    level = Column(Integer)
-    balance_trx = Column(Float)
-    balance_usd = Column(Float)
     role = Column(String)
     status = Column(String)
-    language = Column(String)
-    patron = Column(String)
+    pubg_id = Column(BigInteger)
+    login = Column(Integer)
+    password = Column(String)
     created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    first_referer_id = Column(Integer)
-    second_referer_id = Column(Integer)
-    third_referer_id = Column(Integer)
 
-    bonus = relationship('Bonus', back_populates='user', uselist=False)
-    achievements = relationship('Achievement', back_populates='user', uselist=False)
-    lottery = relationship('Lottery', back_populates='user', uselist=False)
-    wallet = relationship('Wallet', back_populates='user')
-    payments = relationship('Payment', back_populates='user')
-    say_hi = relationship('Say_hi', back_populates='user')
-    promo_codes = relationship('PromoCode', secondary=promo_code_users, back_populates='users')
+    # userStats = relationship('UserStats', back_populates='user', uselist=False)
+    orders = relationship('Orders', back_populates='user')

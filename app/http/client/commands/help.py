@@ -5,15 +5,15 @@ from aiogram import types
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 router = Router()
+flags = {"throttling_key": "default"}
 
 
-@router.message(Command("help"))
-async def cmd_help(message: Message):
+@router.message(Command("help"), flags=flags)
+async def help(message: Message):
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
-        text=(('📺 Звернутись із проблемою')), url='https://t.me/Christooo1')
+        text='📺 Звернутись із проблемою', url='https://t.me/Christooo1')
     )
-    await message.answer(("ℹ Якщо у вас виникли проблеми в боті, спробуйте написати команду: /start \n\n👨‍🔧 Якщо "
-                           "проблема лишилась, напишіть нашому менеджеру, він все "
-                           "владнає:\nhttps://t.me/Christooo1"), reply_markup=builder.as_markup())
-
+    await message.answer("ℹ Якщо у вас виникли проблеми в боті, спробуйте написати команду: /start \n\n👨‍🔧 Якщо "
+                         "проблема лишилась, напишіть нашому менеджеру, він все "
+                         "владнає:\nhttps://t.me/Christooo1", reply_markup=builder.as_markup())

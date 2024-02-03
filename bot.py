@@ -6,23 +6,24 @@ import config
 
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
+
+from app.http.admin.callback import register
+from app.http.admin.commands import admin, mailing
+from app.http.client.callback import setPubgId as callbackSimple
 from database.app import db
 
 from app.http.client.commands import \
     start, \
-    help
+    help, simple, auth, profile
+
+from app.middleware.throttling import ThrottlingMiddleware
 
 from database.migrations import \
     user, \
-    wallets, \
-    achievements, \
-    bonuses, \
-    lottery, \
-    payments, \
-    promo_codes, \
-    promo_code_users, \
-    say_hi, \
-    statistic
+    orders, \
+    price, \
+    variables, \
+    stats
 
 
 TOKEN = config.TOKEN
@@ -43,6 +44,7 @@ async def on_startup():
 async def on_shutdown():
     await db.pop_bind().close()
     print('PostgreSQL CLOSE')
+    await bot.close()
 
 
 async def main() -> None:
@@ -51,8 +53,17 @@ async def main() -> None:
 
         dp.include_routers(
             start.router,
-            help.router
+            help.router,
+            simple.router,
+            callbackSimple.router,
+            profile.router,
+            auth.router,
+            admin.router,
+            mailing.router,
+            register.router,
         )
+
+        dp.message.middleware(ThrottlingMiddleware(1, config.THROTTLE_TIME))
 
         dp.startup.register(on_startup)
 
