@@ -6,11 +6,13 @@ import config
 
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
+
+from app.http.admin.callback import register
 from database.app import db
 
 from app.http.client.commands import \
     start, \
-    help
+    help, simple, auth
 
 from app.middleware.throttling import ThrottlingMiddleware
 
@@ -40,6 +42,7 @@ async def on_startup():
 async def on_shutdown():
     await db.pop_bind().close()
     print('PostgreSQL CLOSE')
+    await bot.close()
 
 
 async def main() -> None:
@@ -48,7 +51,10 @@ async def main() -> None:
 
         dp.include_routers(
             start.router,
-            help.router
+            help.router,
+            simple.router,
+            auth.router,
+            register.router,
         )
 
         dp.message.middleware(ThrottlingMiddleware(1, config.THROTTLE_TIME))

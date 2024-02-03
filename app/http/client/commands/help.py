@@ -9,7 +9,7 @@ flags = {"throttling_key": "default"}
 
 
 @router.message(Command("help"), flags=flags)
-async def cmd_help(message: Message):
+async def help(message: Message):
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
         text=(('📺 Звернутись із проблемою')), url='https://t.me/Christooo1')
