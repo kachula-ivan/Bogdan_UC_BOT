@@ -13,6 +13,7 @@ STATUS_BANNED = 'banned'
 ROLE_USER = 'user'
 ROLE_ADMIN = 'admin'
 
+
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -30,3 +31,5 @@ class User(db.Model):
 
     # userStats = relationship('UserStats', back_populates='user', uselist=False)
     orders = relationship('Orders', back_populates='user')
+
+    _name_idx = db.Index('telegram_id', 'status')

@@ -22,7 +22,7 @@ flags = {"throttling_key": "default"}
 async def start(message: Message):
     # try:
     user = await db.get_user(message.from_user.id)
-    if not user or user.status != User.STATUS_ACTIVE:
+    if user is None:
         letters = string.ascii_uppercase
 
         user = await db.add_user({
@@ -44,6 +44,10 @@ async def start(message: Message):
                                reply_markup=new_user(user.telegram_id))
 
         await message.answer('👇', reply_markup=auth())
+
+    elif user.status != User.STATUS_ACTIVE:
+        await message.answer('Войдите в аккаунт', reply_markup=auth())
+
     else:
         await message.answer('🔝 Главное меню', reply_markup=main())
 

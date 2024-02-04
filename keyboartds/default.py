@@ -48,3 +48,26 @@ def main_admin():
         ],
         resize_keyboard=True,
     )
+
+
+def one_time_default_kb(data):
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text=f"{data}"),
+            ],
+        ],
+        resize_keyboard=True,
+        one_time_keyboard=True,
+    )
+
+
+def default_kb(data):
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text=f"{data}"),
+            ],
+        ],
+        resize_keyboard=True,
+    )

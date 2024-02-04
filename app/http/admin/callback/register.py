@@ -8,7 +8,7 @@ from keyboartds.inline import decline_register_accept, new_user
 router = Router()
 
 
-@router.callback_query(F.data.startswith('register'))
+@router.callback_query(F.data.startswith('register:'))
 async def register(call: CallbackQuery):
     try:
         telegram_id = call.data[len('register:'):]
@@ -16,17 +16,20 @@ async def register(call: CallbackQuery):
 
         await db.update_user(int(telegram_id), {'status': User.STATUS_REGISTER})
 
-        await call.bot.send_message(int(telegram_id), f'✅ Поздравляем! Ваши данные для входа:\n'
-                                                      f'Логин: <code>{user.login}</code>\n'
-                                                      f'Пароль: <code>{user.password}</code>')
+        try:
+            await call.bot.send_message(int(telegram_id), f'✅ Поздравляем! Ваши данные для входа:\n'
+                                                          f'Логин: <code>{user.login}</code>\n'
+                                                          f'Пароль: <code>{user.password}</code>')
+        except:
+            pass
 
-        await call.message.answer('Данные отправлены пользователю')
+        await call.message.answer(f'Данные отправлены пользователю: @{call.from_user.username}\n')
         await call.message.delete()
     except:
         await call.message.answer('Неизвестная ошибка. Напиши Вани')
 
 
-@router.callback_query(F.data.startswith('unregister'))
+@router.callback_query(F.data.startswith('unregister:'))
 async def unregister(call: CallbackQuery):
     try:
         telegram_id = call.data[len('unregister:'):]
@@ -37,13 +40,17 @@ async def unregister(call: CallbackQuery):
         await call.message.answer('Неизвестная ошибка. Напиши Вани')
 
 
-@router.callback_query(F.data.startswith('decline_register'))
+@router.callback_query(F.data.startswith('decline_register:'))
 async def decline_register(call: CallbackQuery):
     try:
         telegram_id = call.data[len('decline_register:'):]
 
         await db.update_user(int(telegram_id), {'status': User.STATUS_DECLINED})
-        await call.bot.send_message(int(telegram_id), f'❌ Вам отказано в регистрации')
+
+        try:
+            await call.bot.send_message(int(telegram_id), f'❌ Вам отказано в регистрации')
+        except:
+            pass
 
         await call.message.answer('Отказано')
         await call.message.delete()
@@ -51,7 +58,7 @@ async def decline_register(call: CallbackQuery):
         await call.message.answer('Неизвестная ошибка. Напиши Вани')
 
 
-@router.callback_query(F.data.startswith('accept_register'))
+@router.callback_query(F.data.startswith('accept_register:'))
 async def accept_register(call: CallbackQuery):
     try:
         telegram_id = call.data[len('accept_register:'):]

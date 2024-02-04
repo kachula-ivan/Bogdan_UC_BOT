@@ -21,6 +21,17 @@ def new_user(telegram_id: int) -> InlineKeyboardMarkup:
     )
 
 
+def decline_register_accept(telegram_id: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="Отказать", callback_data=f"decline_register:{telegram_id}"),
+                InlineKeyboardButton(text="Вернуться назад", callback_data=f"accept_register:{telegram_id}"),
+            ]
+        ],
+    )
+
+
 def mailing_send() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
@@ -32,12 +43,23 @@ def mailing_send() -> InlineKeyboardMarkup:
     )
 
 
-def decline_register_accept(telegram_id: int) -> InlineKeyboardMarkup:
+def new_order(order_id: int) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="Отказать", callback_data=f"decline_register:{telegram_id}"),
-                InlineKeyboardButton(text="Вернуться назад", callback_data=f"accept_register:{telegram_id}"),
+                InlineKeyboardButton(text="✅", callback_data=f"order_completed:{order_id}"),
+                InlineKeyboardButton(text="❌", callback_data=f"order_decline:{order_id}"),
+            ]
+        ],
+    )
+
+
+def decline_order_accept(order_id: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="Отменить заказ", callback_data=f"decline_order:{order_id}"),
+                InlineKeyboardButton(text="Вернуться назад", callback_data=f"accept_order:{order_id}"),
             ]
         ],
     )
@@ -63,7 +85,7 @@ def price_list(price_lists) -> InlineKeyboardMarkup:
         emoji = "💰" if price.sum >= 1500 else "💵"
 
         keys[-1].append(
-            InlineKeyboardButton(text=f"{emoji} {price.uc} | {price.sum} $", callback_data=f"{price.id}"),
+            InlineKeyboardButton(text=f"{emoji} {price.uc} | {price.sum} $", callback_data=f"price:{price.id}"),
         )
 
     return InlineKeyboardMarkup(

@@ -7,9 +7,9 @@ import config
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 
-from app.http.admin.callback import register
+from app.http.admin.callback import register, order as adminOrder
 from app.http.admin.commands import admin, mailing, add_price
-from app.http.client.callback import setPubgId as callbackSimple
+from app.http.client.callback import setPubgId as callbackSimple, order as clientOrder
 from database.app import db
 
 from app.http.client.commands import \
@@ -62,6 +62,8 @@ async def main() -> None:
             mailing.router,
             add_price.router,
             register.router,
+            adminOrder.router,
+            clientOrder.router,
         )
 
         dp.message.middleware(ThrottlingMiddleware(1, config.THROTTLE_TIME))

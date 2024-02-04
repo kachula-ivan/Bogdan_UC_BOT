@@ -1,10 +1,13 @@
 from aiogram import Router, F
 from aiogram.types import Message
 
+from app.filters.isActive import IsActive
 from database.commands import db
 from keyboartds.inline import profile
 
 router = Router()
+router.message.filter(IsActive())
+
 flags = {"throttling_key": "default"}
 
 

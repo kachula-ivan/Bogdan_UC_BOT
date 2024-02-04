@@ -2,12 +2,14 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
+from app.filters.isActive import IsActive
 from app.http.client.states.states import SetPubgId
 from database.commands import db
 from keyboartds.default import main
 from aiogram.types import ReplyKeyboardRemove
 
 router = Router()
+router.message.filter(IsActive())
 
 
 @router.callback_query(F.data.startswith('set_pubg_id'))
