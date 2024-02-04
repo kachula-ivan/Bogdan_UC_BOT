@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from database.app import db
@@ -9,7 +9,7 @@ class Price(db.Model):
 
     id = Column(Integer, primary_key=True)
     uc = Column(String)
-    sum = Column(DateTime)
-    currency = Column(DateTime)
+    sum = Column(Integer)
+    currency = Column(String)
 
     orders = relationship('Orders', back_populates='price')

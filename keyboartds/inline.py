@@ -51,3 +51,21 @@ def profile() -> InlineKeyboardMarkup:
             ]
         ],
     )
+
+
+def price_list(price_lists) -> InlineKeyboardMarkup:
+    keys = []
+
+    for i, price in enumerate(price_lists):
+        if i % 2 == 0:
+            keys.append([])
+
+        emoji = "💰" if price.sum >= 1500 else "💵"
+
+        keys[-1].append(
+            InlineKeyboardButton(text=f"{emoji} {price.uc} | {price.sum} $", callback_data=f"{price.id}"),
+        )
+
+    return InlineKeyboardMarkup(
+        inline_keyboard=keys,
+    )

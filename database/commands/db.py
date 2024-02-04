@@ -1,8 +1,17 @@
+from database.migrations.price import Price
 from database.migrations.user import User
 
 
 async def add_user(user):
     return await User.create(**user)
+
+
+async def add_model(model, data):
+    return await model.create(**data)
+
+
+async def get_models(model):
+    return await model.query.gino.all()
 
 
 async def get_user(telegram_id):
@@ -24,3 +33,7 @@ async def update_user(telegram_id, new_data):
         return True
     else:
         return False
+
+
+async def get_prices():
+    return await Price.query.order_by(Price.sum).gino.all()

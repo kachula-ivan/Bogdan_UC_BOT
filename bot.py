@@ -8,7 +8,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 
 from app.http.admin.callback import register
-from app.http.admin.commands import admin, mailing
+from app.http.admin.commands import admin, mailing, add_price
 from app.http.client.callback import setPubgId as callbackSimple
 from database.app import db
 
@@ -60,6 +60,7 @@ async def main() -> None:
             auth.router,
             admin.router,
             mailing.router,
+            add_price.router,
             register.router,
         )
 

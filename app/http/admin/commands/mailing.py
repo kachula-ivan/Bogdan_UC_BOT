@@ -39,7 +39,7 @@ async def send(call: CallbackQuery, state: FSMContext):
             try:
                 await call.bot.send_message(user.telegram_id, data['MESSAGE'])
             except:
-                continue
+                pass
 
         await call.message.answer('Рассылка выполнена')
     else:
