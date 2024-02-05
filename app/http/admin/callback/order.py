@@ -17,6 +17,9 @@ async def order_completed(call: CallbackQuery):
         order = await db.get_order(int(order_id))
 
         await db.update_model(Order, int(order_id), {'status': STATUS_COMPLETED, 'paid_at': datetime.now()})
+        await db.add_stats('uc', order.uc)
+        await db.add_stats('orders', 1)
+        await db.add_stats('sum', float(order.sum))
 
         await call.message.edit_text(f'✅ Заказ #<code>{order_id}</code>. <code>{order.pubg_id}</code> - {order.uc} UC')
 

@@ -82,7 +82,7 @@ def price_list(price_lists) -> InlineKeyboardMarkup:
         if i % 2 == 0:
             keys.append([])
 
-        emoji = "💰" if price.sum >= 1500 else "💵"
+        emoji = "💰" if price.sum >= 40 else "💵"
 
         keys[-1].append(
             InlineKeyboardButton(text=f"{emoji} {price.uc} | {price.sum} $", callback_data=f"price:{price.id}"),
@@ -90,4 +90,35 @@ def price_list(price_lists) -> InlineKeyboardMarkup:
 
     return InlineKeyboardMarkup(
         inline_keyboard=keys,
+    )
+
+
+def price_list_delete(price_lists) -> InlineKeyboardMarkup:
+    keys = []
+
+    for i, price in enumerate(price_lists):
+        if i % 2 == 0:
+            keys.append([])
+
+        emoji = "💰" if price.sum >= 40 else "💵"
+
+        keys[-1].append(
+            InlineKeyboardButton(text=f"{emoji} {price.uc} | {price.sum} $", callback_data=f"price_delete:{price.id}"),
+        )
+
+    return InlineKeyboardMarkup(
+        inline_keyboard=keys,
+    )
+
+
+def price_list_destroy(price) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text=f"Удалить",
+                                     callback_data=f"price_destroy:{price.id}"),
+                InlineKeyboardButton(text=f"Отменить",
+                                     callback_data=f"price_destroy_cancel"),
+            ]
+        ],
     )

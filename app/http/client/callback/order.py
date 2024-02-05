@@ -55,7 +55,7 @@ async def type_pubg_id(message: Message, state: FSMContext):
         order = await db.add_model(Order, {
             'status': STATUS_CREATE,
             'uc': price.uc,
-            'sum': int(price.sum),
+            'sum': float(price.sum),
             'pubg_id': int(pubg_id),
             'created_at': datetime.datetime.now(),
             'user_id': user.id,

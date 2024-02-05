@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, DateTime, String, BigInteger
+from sqlalchemy import Column, Integer, ForeignKey, DateTime, String, BigInteger, Float
 from sqlalchemy.orm import relationship
 
 from database.app import db
@@ -15,7 +15,7 @@ class Order(db.Model):
     id = Column(Integer, primary_key=True)
     status = Column(String)
     uc = Column(String)
-    sum = Column(Integer)
+    sum = Column(Float)
     pubg_id = Column(BigInteger)
     created_at = Column(DateTime)
     paid_at = Column(DateTime)

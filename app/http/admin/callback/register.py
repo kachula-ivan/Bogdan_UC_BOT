@@ -3,6 +3,7 @@ from aiogram.types import CallbackQuery
 
 from database.commands import db
 from database.migrations import user as User
+from database.migrations.stats import Stats
 from keyboartds.inline import decline_register_accept, new_user
 
 router = Router()
@@ -15,6 +16,7 @@ async def register(call: CallbackQuery):
         user = await db.get_user(int(telegram_id))
 
         await db.update_user(int(telegram_id), {'status': User.STATUS_REGISTER})
+        await db.add_stats('users', 1)
 
         try:
             await call.bot.send_message(int(telegram_id), f'✅ Поздравляем! Ваши данные для входа:\n'

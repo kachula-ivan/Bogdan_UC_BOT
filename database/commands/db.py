@@ -1,5 +1,8 @@
+import re
+
 from database.migrations.orders import Order
 from database.migrations.price import Price
+from database.migrations.stats import Stats
 from database.migrations.user import User
 
 
@@ -61,3 +64,27 @@ async def get_prices():
 async def get_order(order_id):
     return await Order.load(user=User).query.where(Order.id == order_id).gino.first()
 
+
+async def get_orders(user_id):
+    return await Order.query.where(Order.user_id == user_id).where(Order.status == 'completed').gino.all()
+
+
+async def check_stats():
+    stats = await Stats.query.where(Stats.id == 1).gino.first()
+
+    if not stats:
+        return await Stats.create(uc=0, sum=0, users=0)
+
+
+async def get_stats():
+    return await Stats.query.where(Stats.id == 1).gino.first()
+
+
+async def add_stats(field, value):
+    stats = await get_stats()
+    if field == 'uc':
+        await stats.update(**{field: getattr(stats, field) + int(re.search(r'\d+', value).group())}).apply()
+    else:
+        await stats.update(**{field: getattr(stats, field) + value}).apply()
+
+    return True

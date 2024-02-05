@@ -7,8 +7,8 @@ import config
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 
-from app.http.admin.callback import register, order as adminOrder
-from app.http.admin.commands import admin, mailing, add_price
+from app.http.admin.callback import register, order as adminOrder, price as adminPrice
+from app.http.admin.commands import admin, mailing, add_price, simple as AdminCommandSimple
 from app.http.client.callback import setPubgId as callbackSimple, order as clientOrder
 from database.app import db
 
@@ -17,6 +17,7 @@ from app.http.client.commands import \
     help, simple, auth, profile
 
 from app.middleware.throttling import ThrottlingMiddleware
+from database.commands.db import check_stats
 
 from database.migrations import \
     user, \
@@ -37,6 +38,7 @@ bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
 async def on_startup():
     await db.set_bind(DB_URL)
     await db.gino.create_all()
+    await check_stats()
     print('PostgreSQL START')
     print('Bot ONLINE')
 
@@ -64,6 +66,8 @@ async def main() -> None:
             register.router,
             adminOrder.router,
             clientOrder.router,
+            AdminCommandSimple.router,
+            adminPrice.router,
         )
 
         dp.message.middleware(ThrottlingMiddleware(1, config.THROTTLE_TIME))

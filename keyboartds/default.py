@@ -39,11 +39,11 @@ def main_admin():
             ],
             [
                 KeyboardButton(text="📜 Прайс лист"),
-                KeyboardButton(text="📊 Статистика бота"),
+                KeyboardButton(text="Статистика бота 📊"),
             ],
             [
                 KeyboardButton(text="💰 Добавить прайс"),
-                KeyboardButton(text="📊 Статистика пользователя"),
+                KeyboardButton(text="Статистика пользователя 📊"),
             ],
         ],
         resize_keyboard=True,

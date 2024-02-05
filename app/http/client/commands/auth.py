@@ -6,7 +6,7 @@ from aiogram.types import Message
 from app.http.client.states.states import Auth
 from database.commands import db
 from database.migrations import user as User
-from keyboartds.default import auth
+from keyboartds.default import auth, main
 
 router = Router()
 flags = {"throttling_key": "default"}
@@ -35,7 +35,7 @@ async def password(message: Message, state: FSMContext):
 
     if data['LOGIN'].isdigit() and user.login == int(data['LOGIN']) and user.password == data['PASSWORD']:
         await db.update_user(user.telegram_id, {'status': User.STATUS_ACTIVE})
-        await message.answer('✅ Вы вошли в аккаунт\nДля выхода, нажмите на /logout')
+        await message.answer('✅ Вы вошли в аккаунт\nДля выхода, нажмите на /logout', reply_markup=main())
     else:
         await message.answer('Неверный логин или пароль!', reply_markup=auth())
 
